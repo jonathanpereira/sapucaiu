@@ -1,0 +1,15 @@
+{
+  "name": "Sapucaiu no Samba",
+  "short_name": "Sapucaiu",
+  "description": "Veranstaltungen, Zusagen und Proben für die Sambaschule Sapucaiu no Samba Berlin.",
+  "lang": "de",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f9f3e7",
+  "theme_color": "#ed7f07",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
