@@ -9,7 +9,7 @@
 import * as db from "./db.js";
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./config.js";
 
-const INSTRUMENTS = ["Tamborim", "Caixa", "Repinique", "Surdo 1a", "Surdo 2a", "Surdo 3a", "Agogô", "Ripa", "Chocalho", "Cuíca", "Timbal"];
+const INSTRUMENTS = ["Tamborim", "Caixa", "Repinique", "Surdo 1a", "Surdo 2a", "Surdo 3a", "Agogô", "Ripa", "Chocalho", "Cuíca", "Timbal", "Leiten"];
 const LS_KEY = "sapucaiu:memberId";
 
 const MON = ["JAN", "FEB", "MÄR", "APR", "MAI", "JUN", "JUL", "AUG", "SEP", "OKT", "NOV", "DEZ"];
