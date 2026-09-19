@@ -89,9 +89,13 @@ let state = {
 };
 
 function setState(patch) {
+  const prevScreen = state.screen, prevOrgView = state.orgView;
   const p = typeof patch === "function" ? patch(state) : patch;
   Object.assign(state, p);
   render();
+  // Full-screen navigations should land at the top, not wherever the
+  // previous (possibly long) screen happened to be scrolled to.
+  if (state.screen !== prevScreen || state.orgView !== prevOrgView) window.scrollTo(0, 0);
 }
 
 let bannerTimer = null;
