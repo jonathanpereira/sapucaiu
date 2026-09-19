@@ -25,6 +25,10 @@ const probeLabel = (t) => {
 const joinDot = (...parts) => parts.filter((p) => p && String(p).trim()).join(" · ");
 const initials = (n) => n.split(" ").map((p) => p[0]).slice(0, 2).join("");
 const hhmm = (t) => (t || "").slice(0, 5); // Postgres `time` comes back as "19:30:00"
+// A couple of events got saved with a bare "HH:MM" for `ende` before this
+// suffix was added — display them the same as freshly-saved ones instead
+// of only fixing it forward.
+const withUhr = (t) => (t && t !== "—" && !/uhr\s*$/i.test(t) ? t + " Uhr" : t);
 const AV = [
   ["var(--samba-100)", "var(--samba-700)"],
   ["var(--color-accent-2-200)", "var(--color-accent-2-800)"],
@@ -334,7 +338,7 @@ function computeView() {
     tab: s.tab, tabNextStyle: pillTab(s.tab === "next"), tabPastStyle: pillTab(s.tab === "past"), shownEvents,
 
     detailTally: tally("Ja") + " Ja · " + tally("Vielleicht") + " Vielleicht · " + tally("Nein") + " Nein · " + tally("offen") + " offen",
-    ev: { ...e, day: dp.day, mon: dp.mon, dateLabel: dp.dateLabel, treff: e.treffpunkt, maps: e.maps_url, show: e.showtime, setlist: e.setlist_url, geral: e.hinweise },
+    ev: { ...e, day: dp.day, mon: dp.mon, dateLabel: dp.dateLabel, treff: e.treffpunkt, maps: e.maps_url, show: e.showtime, setlist: e.setlist_url, geral: e.hinweise, ende: withUhr(e.ende) },
     ensaios, evMeta: joinDot(dp.dateLabel, e.place),
     infoOpen: s.infoOpen, hasMaps: !!e.maps_url,
     infoToggleLabel: s.infoOpen ? "Infos ausblenden" : "Alle Infos anzeigen",

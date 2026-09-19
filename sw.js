@@ -4,7 +4,7 @@
 //
 // Bump CACHE_NAME whenever a shell file's *content* changes; the old cache
 // is dropped on activate.
-const CACHE_NAME = "sapucaiu-shell-v1";
+const CACHE_NAME = "sapucaiu-shell-v2";
 const SHELL_FILES = [
   "./",
   "./index.html",
@@ -40,15 +40,16 @@ self.addEventListener("fetch", (event) => {
   // service worker at all.
   if (url.origin !== self.location.origin || event.request.method !== "GET") return;
 
+  // Network-first, not cache-first: this app ships small fixes often, and a
+  // cache-first shell means a browser silently keeps running yesterday's
+  // app.js until a *second* reload after every deploy. Only fall back to
+  // the cache when there's no network at all (the actual offline case).
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const network = fetch(event.request)
-        .then((resp) => {
-          if (resp.ok) caches.open(CACHE_NAME).then((cache) => cache.put(event.request, resp.clone()));
-          return resp;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
+    fetch(event.request)
+      .then((resp) => {
+        if (resp.ok) caches.open(CACHE_NAME).then((cache) => cache.put(event.request, resp.clone()));
+        return resp;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
