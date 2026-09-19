@@ -184,7 +184,7 @@ function setAttendance(rehearsalId, response) {
 function formFrom(e) {
   return {
     title: e.title || "", date: e.date || "", ankunft: hhmm(e.ankunft), show: hhmm(e.showtime),
-    ende: e.ende || "", place: e.place || "", treff: e.treffpunkt || "", maps: e.maps_url || "",
+    ende: hhmm(e.ende), place: e.place || "", treff: e.treffpunkt || "", maps: e.maps_url || "",
     geral: e.hinweise || "", outfit: e.outfit || "", setlist: e.setlist_url || "",
   };
 }
@@ -195,7 +195,7 @@ async function commitEvent() {
     id: state.orgNew ? null : state.orgEditId,
     title: f.title.trim() || "Neues Event", date: f.date || null,
     place: f.place.trim(), treffpunkt: f.treff.trim(), maps_url: f.maps.trim(),
-    ankunft: f.ankunft ? f.ankunft + " Uhr" : "", showtime: f.show ? f.show + " Uhr" : "", ende: f.ende,
+    ankunft: f.ankunft ? f.ankunft + " Uhr" : "—", showtime: f.show ? f.show + " Uhr" : "—", ende: f.ende ? f.ende + " Uhr" : "—",
     outfit: f.outfit.trim(), setlist_url: f.setlist.trim(), hinweise: f.geral.trim(),
   };
   const rehearsals = state.orgEnsaios.map((t) => ({ date: t.date || null, time: t.time || null, place: t.place || "" }));
@@ -499,6 +499,7 @@ ${v.infoOpen ? `
 <span style="color:var(--samba-100);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding-top:2px">Treffpunkt</span><span style="color:#fff">${esc(v.ev.treff)}${v.hasMaps ? `<a href="${esc(v.ev.maps)}" target="_blank" style="display:inline-block;margin-left:7px;color:#fff;text-decoration:underline">Karte öffnen</a>` : ""}</span>
 <span style="color:var(--samba-100);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding-top:2px">Ankunft</span><span style="color:#fff">${esc(v.ev.ankunft)}</span>
 <span style="color:var(--samba-100);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding-top:2px">Showtime</span><span style="color:#fff">${esc(v.ev.show)}</span>
+<span style="color:var(--samba-100);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding-top:2px">Ende (ca.)</span><span style="color:#fff">${esc(v.ev.ende)}</span>
 <span style="color:var(--samba-100);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding-top:2px">Outfit</span><span style="color:#fff">${esc(v.ev.outfit)}</span>
 <span style="color:var(--samba-100);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding-top:2px">Setlist</span><span><a href="#setlist" style="color:#fff;text-decoration:underline">${esc(v.ev.setlist)}</a></span>
 <span style="color:var(--samba-100);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding-top:2px">Hinweise</span><span style="color:#fff;white-space:pre-line">${esc(v.ev.geral)}</span>
